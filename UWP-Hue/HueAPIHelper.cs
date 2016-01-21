@@ -14,7 +14,7 @@ namespace UWP_Hue
 {
     public static class HueAPIHelper
     {
-        public static string api = "http://localhost:8000/api";
+        public static string api = "http://192.168.168.20/api";
         public static string username; 
 
         public async static Task<Boolean> getUsernameCredentials()

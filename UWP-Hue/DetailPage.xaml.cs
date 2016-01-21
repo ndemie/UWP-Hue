@@ -57,14 +57,7 @@ namespace UWP_Hue
             if (!loadingPage)
             {
                 var state = e.OriginalSource as ToggleSwitch;
-                string jsonString;
-                if (state.IsOn)
-                {
-                    jsonString = "{\"on\":" + state.IsOn.ToString() + "}";
-                } else
-                {
-                    jsonString = "{\"on\":" + state.IsOn.ToString() + ",\"transitiontime\":0,\"bri\":255}";
-                }
+                string jsonString = "{\"on\":" + state.IsOn.ToString() + ",\"transitiontime\":0,\"bri\":" + brightness.Value + "}";
                 await HueAPIHelper.putLightChanges(jsonString.ToLowerInvariant(), chosenLight.Id);
             }
         }
