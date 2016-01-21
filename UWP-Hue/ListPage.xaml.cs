@@ -39,7 +39,11 @@ namespace UWP_Hue
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
-            showDialog(); 
+
+            if (HueAPIHelper.username == "")
+            {
+                showDialog();
+            }
             checkForStatusChange();
 
             lightcollection = new ObservableCollection<Light>();
@@ -80,8 +84,10 @@ namespace UWP_Hue
                 var status = await checkStatus();
                 if (status == true)
                 {
-                    dialog.Hide();
-
+                    if (dialog != null)
+                    {
+                        dialog.Hide();
+                    }
                     getLights();
                 }
             } catch(TypeInitializationException e)
