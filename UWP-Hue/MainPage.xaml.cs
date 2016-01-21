@@ -29,8 +29,6 @@ namespace UWP_Hue
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             NavFrame.Navigated += OnNavigated;
-            
-
 
             NavFrame.Navigate(typeof(ListPage));
         }

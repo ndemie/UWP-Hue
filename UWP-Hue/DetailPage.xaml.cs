@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UWP_Hue.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,10 +24,75 @@ namespace UWP_Hue
     /// </summary>
     public sealed partial class DetailPage : Page
     {
+        public Light chosenLight;
+        List<Light> lightsList = HueStore.Instance.lights;
+        private bool loadingPage = true;
         public DetailPage()
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var lightId = (int)e.Parameter;
+
+            chosenLight = lightsList.Find(x => x.Id == lightId);
+
+            if (chosenLight != null)
+            {
+                toggleSwitch.IsOn = chosenLight.On;
+                hue.Value = chosenLight.Hue;
+                saturation.Value = chosenLight.Saturation;
+                brightness.Value = chosenLight.Brightness;
+            }
+
+            loadingPage = false;
+        }
+
+        private async void toggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!loadingPage)
+            {
+                var state = e.OriginalSource as ToggleSwitch;
+                string jsonString;
+                if (state.IsOn)
+                {
+                    jsonString = "{\"on\":" + state.IsOn.ToString() + "}";
+                } else
+                {
+                    jsonString = "{\"on\":" + state.IsOn.ToString() + ",\"transitiontime\":0,\"bri\":255}";
+                }
+                await HueAPIHelper.putLightChanges(jsonString.ToLowerInvariant(), chosenLight.Id);
+            }
+        }
+
+        private async void saturation_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!loadingPage)
+            {
+                var jsonString = "{\"sat\":" + e.NewValue + ",\"transitiontime\":0}";
+                await HueAPIHelper.putLightChanges(jsonString, chosenLight.Id);
+            }
+        }
+
+        private async void hue_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!loadingPage) {
+                var jsonString = "{\"hue\":" + e.NewValue + ",\"transitiontime\":0}";
+                await HueAPIHelper.putLightChanges(jsonString, chosenLight.Id);
+            }
+            
+        }
+
+        private async void brightness_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!loadingPage) {
+                var jsonString = "{\"bri\":" + e.NewValue + ",\"transitiontime\":0}";
+                await HueAPIHelper.putLightChanges(jsonString, chosenLight.Id);
+            }
         }
     }
 }

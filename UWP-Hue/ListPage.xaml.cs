@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using UWP_Hue.Models;
 using System.Collections.ObjectModel;
 using Windows.UI.Core;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,8 +39,7 @@ namespace UWP_Hue
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
-            showDialog();
-
+            showDialog(); 
             checkForStatusChange();
 
             lightcollection = new ObservableCollection<Light>();
@@ -75,13 +75,18 @@ namespace UWP_Hue
 
         private async void checkForStatusChange()
         {
-            var status = await checkStatus();
-
-            if (status == true)
+            try
             {
-                dialog.Hide();
+                var status = await checkStatus();
+                if (status == true)
+                {
+                    dialog.Hide();
 
-                getLights();
+                    getLights();
+                }
+            } catch(TypeInitializationException e)
+            {
+                Debug.WriteLine(e);
             }
         }
 
@@ -110,9 +115,9 @@ namespace UWP_Hue
         {
             var selectedLight = (Light)e.ClickedItem;
 
-            string lightName = selectedLight.Name;
+            int lightId = selectedLight.Id;
 
-            this.Frame.Navigate(typeof(DetailPage), lightName);
+            this.Frame.Navigate(typeof(DetailPage), lightId);
         }
     }
 }

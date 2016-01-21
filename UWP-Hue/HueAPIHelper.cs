@@ -15,6 +15,7 @@ namespace UWP_Hue
     public static class HueAPIHelper
     {
         public static string api = "http://localhost:8000/api";
+        public static string username; 
 
         public async static Task<Boolean> getUsernameCredentials()
         {
@@ -36,6 +37,7 @@ namespace UWP_Hue
                 Authentication mappedResult = JsonConvert.DeserializeObject<Authentication>(firstContent);
 
                 hueStore.authenticationObject = mappedResult;
+                username = HueStore.Instance.authenticationObject.success.username;
                 return true;
             } else
             {
@@ -48,7 +50,7 @@ namespace UWP_Hue
         {
             HttpClient http = new HttpClient();
 
-            var response = await http.GetAsync(api + "/" + HueStore.Instance.authenticationObject.success.username + "/lights");
+            var response = await http.GetAsync(api + "/" + username + "/lights");
 
             var statusCode = response.StatusCode;
 
@@ -92,6 +94,20 @@ namespace UWP_Hue
             catch (Exception e)
             {
                 System.Diagnostics.Debug.Write(e);
+            }
+        }
+
+        public async static Task putLightChanges(string changedString, int lightId)
+        {
+            try
+            {
+                StringContent content = new StringContent(changedString, Encoding.UTF8, "application/json");
+
+                HttpClient http = new HttpClient();
+                await http.PutAsync(api + "/" + username + "/lights/" + lightId + "/state", content);
+            } catch(OperationCanceledException e)
+            {
+                Debug.WriteLine(e);
             }
         }
     }

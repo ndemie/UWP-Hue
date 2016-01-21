@@ -7,7 +7,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="DETAIL PEEDSJ"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ToggleSwitch Grid.Row="1" x:Name="toggleSwitch" HorizontalAlignment="Left" VerticalAlignment="Top" Toggled="toggleSwitch_Toggled"/>
+        <StackPanel Orientation="Vertical" Grid.Row="2">
+            <TextBlock Text="Hue"/>
+            <Slider x:Name="hue" HorizontalAlignment="Stretch" VerticalAlignment="Top" Minimum="0" Maximum="65535" ValueChanged="hue_ValueChanged" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3">
+            <TextBlock Text="Saturation"/>
+            <Slider x:Name="saturation" HorizontalAlignment="Stretch" VerticalAlignment="Top" Minimum="0" Maximum="254" ValueChanged="saturation_ValueChanged" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="4">
+            <TextBlock Text="Brightness"/>
+            <Slider x:Name="brightness" HorizontalAlignment="Stretch" VerticalAlignment="Top" Minimum="1" Maximum="254" ValueChanged="brightness_ValueChanged"/>
+        </StackPanel>
+        
+        
     </Grid>
 </Page>
