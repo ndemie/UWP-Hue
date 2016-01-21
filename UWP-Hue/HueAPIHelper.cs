@@ -20,7 +20,6 @@ namespace UWP_Hue
 
         public async static Task<Boolean> getUsernameCredentials()
         {
-
             String postContent = "{\"devicetype\":\"hue-uwp#coole-device\"}";
             HttpClient http = new HttpClient();
 

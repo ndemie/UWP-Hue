@@ -36,17 +36,17 @@ namespace UWP_Hue
         public ListPage()
         {
             this.InitializeComponent();
+            lightcollection = new ObservableCollection<Light>();
+
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
-
-            if (HueAPIHelper.username == "")
-            {
+            if (HueStore.Instance.loginStatus == false) {
                 showDialog();
+                checkForStatusChange();
+            } else {
+                getLights();
             }
-            checkForStatusChange();
-
-            lightcollection = new ObservableCollection<Light>();
         }
 
         private async void showDialog()
@@ -62,7 +62,7 @@ namespace UWP_Hue
 
             panel.Children.Add(new TextBlock
             {
-                Text = "Druk op de link knop op uw Hue om verbinding te maken.",
+                Text = "Druk op de link knop op uw Hue bridge om verbinding te maken.",
                 TextWrapping = TextWrapping.Wrap
             });
 
@@ -88,6 +88,7 @@ namespace UWP_Hue
                     {
                         dialog.Hide();
                     }
+                    HueStore.Instance.loginStatus = true;
                     getLights();
                 }
             } catch(TypeInitializationException e)
@@ -101,6 +102,7 @@ namespace UWP_Hue
             Boolean loginStatus = false;
             while(loginStatus == false)
             {
+                await Task.Delay(TimeSpan.FromSeconds(1));
                 var result = await HueAPIHelper.getUsernameCredentials();
 
                 if (result == true) {
@@ -115,7 +117,6 @@ namespace UWP_Hue
         {
             Task t = HueAPIHelper.parseLights(lightcollection);
             await t;
-
         }
 
         private void LightsListView_ItemClick(object sender, ItemClickEventArgs e)

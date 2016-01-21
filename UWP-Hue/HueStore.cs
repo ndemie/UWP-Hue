@@ -31,7 +31,7 @@ namespace UWP_Hue
         }
 
         public Authentication authenticationObject;
-
+        public bool loginStatus;
         public List<Light> lights = new List<Light>();
     }
 }
