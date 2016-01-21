@@ -13,15 +13,33 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
             <ListView Name="LightsListView"
                       ItemsSource="{x:Bind lightcollection}" 
                       IsItemClickEnabled="True" 
                       ItemClick="LightsListView_ItemClick">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:Light">
-                        <TextBlock Text="{x:Bind Name}"/>
+                        <TextBlock Height="50" Text="{x:Bind Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+        <ScrollViewer Grid.Row="0" Grid.Column="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+            <ListView Name="ColorListView"
+                      ItemsSource="{x:Bind lightcollection}" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Light">
+                        <Rectangle Stretch="UniformToFill" Height="50" >
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{x:Bind Colour}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

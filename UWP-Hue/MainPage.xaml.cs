@@ -42,8 +42,6 @@ namespace UWP_Hue
             }
         }
 
-
-
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
             if (e.Parameter != null && NavFrame.CanGoBack)

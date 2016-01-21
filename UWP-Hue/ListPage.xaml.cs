@@ -115,6 +115,7 @@ namespace UWP_Hue
         {
             Task t = HueAPIHelper.parseLights(lightcollection);
             await t;
+
         }
 
         private void LightsListView_ItemClick(object sender, ItemClickEventArgs e)

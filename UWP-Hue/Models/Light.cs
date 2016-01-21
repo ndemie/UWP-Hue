@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace UWP_Hue.Models
 {
@@ -17,6 +20,7 @@ namespace UWP_Hue.Models
         private bool on;
         private string name;
         private string type;
+        private Color colour;
 
         public string Name
         {
@@ -106,6 +110,19 @@ namespace UWP_Hue.Models
             set
             {
                 on = value;
+            }
+        }
+
+        public Color Colour
+        {
+            get
+            {
+                return colour;
+            }
+
+            set
+            {
+                colour = value;
             }
         }
     }

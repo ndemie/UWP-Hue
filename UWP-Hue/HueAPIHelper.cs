@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Data.Json;
 using UWP_Hue.Models;
 using System.Collections.ObjectModel;
+using Windows.UI;
 
 namespace UWP_Hue
 {
@@ -85,10 +86,10 @@ namespace UWP_Hue
                     light.Saturation = Convert.ToInt32(stateObject.GetNamedNumber("sat"));
                     light.Brightness = Convert.ToInt32(stateObject.GetNamedNumber("bri"));
 
+                    light.Colour = ColorFromHSV((double)(int)light.Hue, (double)(int)light.Saturation, (double)(int)light.Brightness);
+
                     lights.Add(light);
                     lightsCollection.Add(light);
-
-                    Debug.WriteLine("Hij is klaar!!!!!!!");
                 }
             }
             catch (Exception e)
@@ -96,6 +97,8 @@ namespace UWP_Hue
                 System.Diagnostics.Debug.Write(e);
             }
         }
+
+
 
         public async static Task putLightChanges(string changedString, int lightId)
         {
@@ -109,6 +112,31 @@ namespace UWP_Hue
             {
                 Debug.WriteLine(e);
             }
+        }
+
+        public static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, (byte)(int)v, (byte)(int)t, (byte)(int)p);
+            else if (hi == 1)
+                return Color.FromArgb(255, (byte)(int)q, (byte)(int)v, (byte)(int)p);
+            else if (hi == 2)
+                return Color.FromArgb(255, (byte)(int)p, (byte)(int)v, (byte)(int)t);
+            else if (hi == 3)
+                return Color.FromArgb(255, (byte)(int)p, (byte)(int)q, (byte)(int)v);
+            else if (hi == 4)
+                return Color.FromArgb(255, (byte)(int)t, (byte)(int)p, (byte)(int)v);
+            else
+                return Color.FromArgb(255, (byte)(int)v, (byte)(int)p, (byte)(int)q);
         }
     }
 }
