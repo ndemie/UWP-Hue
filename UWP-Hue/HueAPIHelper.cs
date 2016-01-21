@@ -86,7 +86,7 @@ namespace UWP_Hue
                     light.Saturation = Convert.ToInt32(stateObject.GetNamedNumber("sat"));
                     light.Brightness = Convert.ToInt32(stateObject.GetNamedNumber("bri"));
 
-                    light.Colour = ColorFromHSV((double)(int)light.Hue, (double)(int)light.Saturation, (double)(int)light.Brightness);
+                    light.Colour = ColorFromHSV((double)light.Hue, (double)light.Saturation, (double)light.Brightness);
 
                     lights.Add(light);
                     lightsCollection.Add(light);
@@ -126,17 +126,17 @@ namespace UWP_Hue
             int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
 
             if (hi == 0)
-                return Color.FromArgb(255, (byte)(int)v, (byte)(int)t, (byte)(int)p);
+                return Color.FromArgb(255, (byte)v, (byte)t, (byte)p);
             else if (hi == 1)
-                return Color.FromArgb(255, (byte)(int)q, (byte)(int)v, (byte)(int)p);
+                return Color.FromArgb(255, (byte)q, (byte)v, (byte)p);
             else if (hi == 2)
-                return Color.FromArgb(255, (byte)(int)p, (byte)(int)v, (byte)(int)t);
+                return Color.FromArgb(255, (byte)p, (byte)v, (byte)t);
             else if (hi == 3)
-                return Color.FromArgb(255, (byte)(int)p, (byte)(int)q, (byte)(int)v);
+                return Color.FromArgb(255, (byte)p, (byte)q, (byte)v);
             else if (hi == 4)
-                return Color.FromArgb(255, (byte)(int)t, (byte)(int)p, (byte)(int)v);
+                return Color.FromArgb(255, (byte)t, (byte)p, (byte)v);
             else
-                return Color.FromArgb(255, (byte)(int)v, (byte)(int)p, (byte)(int)q);
+                return Color.FromArgb(255, (byte)v, (byte)p, (byte)q);
         }
     }
 }
