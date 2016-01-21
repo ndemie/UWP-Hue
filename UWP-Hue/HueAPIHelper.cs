@@ -62,6 +62,8 @@ namespace UWP_Hue
         public async static Task parseLights(ObservableCollection<Light> lightsCollection)
         {
             String httpResponse = await getLightsFromService();
+            lightsCollection.Clear();
+            HueStore.Instance.lights.Clear();
 
             var lights = HueStore.Instance.lights;
 
