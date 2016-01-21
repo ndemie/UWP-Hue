@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,35 @@ namespace UWP_Hue
         public MainPage()
         {
             this.InitializeComponent();
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            NavFrame.Navigated += OnNavigated;
+            
+
+
+            NavFrame.Navigate(typeof(ListPage));
+        }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (NavFrame != null && NavFrame.CanGoBack)
+            {
+                e.Handled = true;
+                NavFrame.GoBack();
+            }
+        }
+
+
+
+        private void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            if (e.Parameter != null && NavFrame.CanGoBack)
+            {
+                PageTitle.Text = e.Parameter.ToString();
+            } else
+            {
+                PageTitle.Text = "Hue UWP";
+            }
         }
     }
 }

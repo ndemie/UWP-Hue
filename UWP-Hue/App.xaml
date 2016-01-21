@@ -5,4 +5,13 @@
     xmlns:local="using:UWP_Hue"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <Style TargetType="TextBlock" x:Key="PageTitleStyle">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Foreground" Value="#FFF18C12"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+    </Application.Resources>
+
 </Application>
